@@ -1,0 +1,20 @@
+models:
+  Room:
+    name: string:200
+    price: integer
+    short_description: text:200
+    long_description: text:400
+    relationships:
+      hasMany: Reservation
+
+  Reservation:
+    startDate: datetime
+    endDate: datetime
+    email: string
+    room_id: integer (foreign key)
+    name: string:100
+    phone: string:15
+    note: text:500
+    relationships:
+      belongsTo: Room
+
