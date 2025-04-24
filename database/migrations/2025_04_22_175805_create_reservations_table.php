@@ -13,14 +13,15 @@ return new class extends Migration {
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('startDate');
-            $table->dateTime('endDate');
+            $table->dateTime('startDate')->index();
+            $table->dateTime('endDate')->index();
             $table->string('email');
             $table->foreignIdFor(Room::class)->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('phone');
             $table->text('note')->nullable();
             $table->timestamps();
+            $table->decimal('price', 8, 2)->default(0);
         });
     }
 

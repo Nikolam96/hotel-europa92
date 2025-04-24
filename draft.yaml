@@ -4,6 +4,7 @@ models:
     price: integer
     short_description: text:200
     long_description: text:400
+    image: string
     relationships:
       hasMany: Reservation
 

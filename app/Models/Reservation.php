@@ -10,20 +10,6 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'from',
-        'to',
-        'email',
-        'room_id',
-        'name',
-        'phone',
-        'note',
-    ];
 
     /**
      * Get the attributes that should be cast.
@@ -33,9 +19,6 @@ class Reservation extends Model
     protected function casts(): array
     {
         return [
-            'id' => 'integer',
-            'from' => 'datetime',
-            'to' => 'datetime',
             'room_id' => 'integer',
         ];
     }

@@ -33,6 +33,7 @@ class ReservationFactory extends Factory
             'email' => fake()->email(),
             'phone' => fake()->phoneNumber(),
             'note' => fake()->text(),
+            'price' => fake()->numberBetween(200, 500),
         ];
     }
 }
