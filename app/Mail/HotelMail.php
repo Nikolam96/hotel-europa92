@@ -30,7 +30,7 @@ class HotelMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Send Hotel Mail',
+            subject: 'New Room Reservation',
         );
     }
 

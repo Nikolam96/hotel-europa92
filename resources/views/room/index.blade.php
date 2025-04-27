@@ -7,6 +7,11 @@
 
     <div class="mx-8 py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            @if (session('success'))
+                <div class="mb-4 rounded-lg bg-green-100 px-4 py-3 text-green-800 shadow-md">
+                    ✅ {{ session('success') }}
+                </div>
+            @endif
             {{-- No Rooms --}}
             @if ($rooms->isEmpty())
                 <h1 class="mt-6 text-center text-lg text-gray-700 dark:text-gray-300">{{ __('No Rooms') }}</h1>
@@ -18,7 +23,9 @@
                             class="overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-gray-700">
                             <a href="{{ route('room.show', ['room' => $room->id]) }}">
                                 {{-- Image --}}
-                                <img class="h-48 w-full object-cover" src="{{ $room->image }}" alt="{{ $room->name }}">
+                                <img class="h-48 w-full object-cover"
+                                    src="{{ $room->image !== 'https://picsum.photos/400' ? asset('storage/' . $room->image) : $room->image }}"
+                                    alt="{{ $room->name }}">
                                 <div class="p-4">
                                     {{-- Name --}}
                                     <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ __($room->name) }}

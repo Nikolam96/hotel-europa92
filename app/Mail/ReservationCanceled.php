@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use App\Models\Reservation;
-use App\Models\Room;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,19 +10,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ReservationMail extends Mailable
+class ReservationCanceled extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(
-        public Room $room,
-        public Reservation $reservation
-    ) {
+    public function __construct(public Reservation $reservation, public string $reason)
+    {
     }
-
 
     /**
      * Get the message envelope.
@@ -31,7 +27,7 @@ class ReservationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reservation Successful',
+            subject: 'Reservation Canceled',
         );
     }
 
@@ -41,11 +37,7 @@ class ReservationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.reservation',
-            with: [
-                'room' => $this->room,
-                'reservation' => $this->reservation,
-            ]
+            markdown: 'emails.reservation.canceled',
         );
     }
 

@@ -9,14 +9,20 @@ use App\Models\Reservation;
 use App\Models\Room;
 use App\Services\ReservationService;
 use Illuminate\Http\Request;
-use App\Services\PriceCalculatorService;
 use Mail;
 
 class ReservationController extends Controller
 {
 
-    public function __construct(public ReservationService $service)
+    public function __construct(public ReservationService $reservation)
     {
+    }
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $reservation = Reservation::all();
     }
 
     /**
@@ -40,13 +46,14 @@ class ReservationController extends Controller
     public function store(StoreReservation $request)
     {
         $data = $request->validated();
-        $reservation = $this->service->calculatePriceAndSave($data);
-        if (!$reservation) {
+        $response = $this->reservation->calculatePriceAndSave($data);
+        if (!$response) {
             return back()->withErrors(['reservation' => 'This room is not available for the selected dates.']);
         }
-        // Mail::to($reservation['reservation']->email)->queue(new ReservationMail($reservation['room'], $reservation['reservation']));
-        // Mail::to('reservation@hotel92.com')->queue(new HotelMail($reservation['room'], $reservation['reservation']));
-        return redirect()->route('room.index');
+        Mail::to($response['reservation']->email)->queue(new ReservationMail($response['room'], $response['reservation']));
+        Mail::to('reservation@hotel92.com')->queue(new HotelMail($response['room'], $response['reservation']));
+        return redirect()->route('room.index')->with('success', 'Room reserved successfully.');
+        ;
     }
 
 }

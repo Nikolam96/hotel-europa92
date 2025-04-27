@@ -10,7 +10,8 @@
             <div class="rounded-lg bg-white p-6 shadow-lg">
                 <div class="mb-6">
                     {{-- Image --}}
-                    <img class="h-96 w-full rounded-lg object-cover" src="https://picsum.photos/800"
+                    <img class="h-96 w-full rounded-lg object-cover"
+                        src="{{ $room->image !== 'https://picsum.photos/400' ? asset('storage/' . $room->image) : $room->image }}"
                         alt="{{ $room->name }}">
                 </div>
                 {{-- Name --}}
