@@ -1,12 +1,3 @@
-@component('mail::message')
-    # Reservation Canceled
-
-
-
-
-    {{ config('app.name') }}
-@endcomponent
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,8 +8,9 @@
         body {
             font-family: Arial, sans-serif;
             background: #f9f9f9;
-            color: #333;
+            color: black;
             padding: 20px;
+            margin-top: 20px
         }
 
         .container {
@@ -34,10 +26,12 @@
             font-size: 22px;
             font-weight: bold;
             margin-bottom: 20px;
+            color: red
         }
 
         .details {
             margin-bottom: 20px;
+            color: black
         }
 
         .details p {

@@ -57,7 +57,7 @@
         </div>
 
         <div class="footer">
-            Thank you for booking with us! If you have any questions, feel free to reply to this email.
+            <h2>Thank you for booking with us! If you have any questions, feel free to reply to this email.</h2>
         </div>
     </div>
 </body>

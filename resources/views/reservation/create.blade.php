@@ -39,7 +39,8 @@
                         value="{{ old('endDate') }}" />
                     {{-- Note --}}
                     <div class="mb-4">
-                        <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
+                        <label for="note"
+                            class="block text-sm font-medium text-gray-700">{{ __('Note') }}</label>
                         <textarea placeholder="Write something you want us to do for you!" name="note" id="note" rows="6"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ old('note') }}</textarea>
                     </div>
@@ -48,7 +49,7 @@
                         <button data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}" data-callback='onSubmit'
                             data-action='submit'
                             class="g-recaptcha max-w-md rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700">
-                            Reserve Now
+                            {{ __('Reserve Now') }}
                         </button>
                         {{-- Chapta Error --}}
                         @error('g-recaptcha-response')

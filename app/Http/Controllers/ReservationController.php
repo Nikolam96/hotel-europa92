@@ -50,8 +50,10 @@ class ReservationController extends Controller
         if (!$response) {
             return back()->withErrors(['reservation' => 'This room is not available for the selected dates.']);
         }
+
         Mail::to($response['reservation']->email)->queue(new ReservationMail($response['room'], $response['reservation']));
         Mail::to('reservation@hotel92.com')->queue(new HotelMail($response['room'], $response['reservation']));
+
         return redirect()->route('room.index')->with('success', 'Room reserved successfully.');
         ;
     }

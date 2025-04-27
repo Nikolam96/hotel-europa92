@@ -7,6 +7,7 @@
 
     <div class="mx-8 py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            {{-- Reservation Success --}}
             @if (session('success'))
                 <div class="mb-4 rounded-lg bg-green-100 px-4 py-3 text-green-800 shadow-md">
                     ✅ {{ session('success') }}

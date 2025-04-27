@@ -19,7 +19,7 @@ class HotelMail extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        public Room $room,
+        public $room,
         public Reservation $reservation
     ) {
     }
@@ -40,7 +40,7 @@ class HotelMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.hotel',
+            view: 'emails.hotel',
             with: [
                 'room' => $this->room,
                 'reservation' => $this->reservation,
