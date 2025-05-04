@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReservation;
-use App\Mail\HotelMail;
-use App\Mail\ReservationMail;
 use App\Models\Reservation;
 use App\Models\Room;
 use App\Services\ReservationService;
 use Illuminate\Http\Request;
-use Mail;
 
 class ReservationController extends Controller
 {
@@ -30,7 +27,7 @@ class ReservationController extends Controller
      */
     public function create(Request $request)
     {
-        $rooms = Room::all();
+        $rooms = Room::select('name', 'price', 'id')->get();
 
         if ($request->id) {
             $selected = $request->id;
@@ -51,11 +48,8 @@ class ReservationController extends Controller
             return back()->withErrors(['reservation' => 'This room is not available for the selected dates.']);
         }
 
-        Mail::to($response['reservation']->email)->queue(new ReservationMail($response['room'], $response['reservation']));
-        Mail::to('reservation@hotel92.com')->queue(new HotelMail($response['room'], $response['reservation']));
-
         return redirect()->route('room.index')->with('success', 'Room reserved successfully.');
-        ;
+
     }
 
 }

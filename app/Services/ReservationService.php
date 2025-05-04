@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Mail\HotelMail;
+use App\Mail\ReservationMail;
 use App\Models\Reservation;
 use App\Models\Room;
 use Carbon\Carbon;
+use Mail;
 
 class ReservationService
 {
@@ -12,8 +15,9 @@ class ReservationService
     public function calculatePriceAndSave(array $reservation)
     {
         unset($reservation['g-recaptcha-response']);
-        $room = Room::findOrFail($reservation["room_id"]);
 
+        // Find room and validate
+        $room = Room::findOrFail($reservation["room_id"]);
         $startDate = Carbon::parse($reservation['startDate']);
         $endDate = Carbon::parse($reservation['endDate']);
 
@@ -21,15 +25,26 @@ class ReservationService
             return false;
         }
 
+        $createdReservation = $this->validateAndSave($reservation, $startDate, $endDate, $room);
+
+        $this->sendMails($createdReservation, $room);
+
+        return $createdReservation;
+    }
+    public function sendMails($reservation, $room)
+    {
+
+        Mail::to($reservation->email)->queue(new ReservationMail($room, $reservation));
+        Mail::to('reservation@hotel92.com')->queue(new HotelMail($room, $reservation));
+    }
+    public function validateAndSave($reservation, $startDate, $endDate, $room)
+    {
         // Calculate Price
-        $daysDifference = $startDate->diffInDays($endDate);
+        $daysDifference = max(1, $startDate->diffInDays($endDate));
         $reservation['price'] = $daysDifference * $room->price;
 
         // Save to datebase
-        return [
-            'reservation' => Reservation::create($reservation),
-            'room' => $room,
-        ];
+        return Reservation::create($reservation);
     }
 
 }
