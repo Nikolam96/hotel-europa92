@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Room;
 use Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
-use App\Models\Room;
 
 class RoomFactory extends Factory
 {

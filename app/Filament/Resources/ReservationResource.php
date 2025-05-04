@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReservationResource\Pages;
-use App\Filament\Resources\ReservationResource\RelationManagers;
 use App\Models\Reservation;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use UpdatePriceService;
 
 class ReservationResource extends Resource
@@ -32,8 +29,7 @@ class ReservationResource extends Resource
                 }),
             Forms\Components\DateTimePicker::make('endDate')
                 ->required()
-                ->minDate(fn(callable $get) =>
-                    \Carbon\Carbon::parse($get('startDate'))->addDay())
+                ->minDate(fn (callable $get) => \Carbon\Carbon::parse($get('startDate'))->addDay())
                 ->afterStateUpdated(function ($set, $get) {
                     UpdatePriceService::handle($set, $get);
                 }),
@@ -58,7 +54,7 @@ class ReservationResource extends Resource
                 ->numeric()
                 ->disabled()
                 ->default(0)
-                ->prefix('$')
+                ->prefix('$'),
         ]);
     }
 
@@ -121,7 +117,4 @@ class ReservationResource extends Resource
             'edit' => Pages\EditReservation::route('/{record}/edit'),
         ];
     }
-
 }
-
-

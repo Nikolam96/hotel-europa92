@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Reservation;
 use App\Models\Room;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ReservationFactory extends Factory
 {

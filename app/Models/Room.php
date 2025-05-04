@@ -14,10 +14,11 @@ class Room extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
     public function isAvailable($room, $startDate, $endDate)
     {
-        return !$this->reservations()
-            ->where("room_id", '=', $room)
+        return ! $this->reservations()
+            ->where('room_id', '=', $room)
             ->where('startDate', '<', $endDate)
             ->where('endDate', '>', $startDate)
             ->exists();

@@ -4,7 +4,7 @@ use App\Models\Room;
 
 class UpdatePriceService
 {
-    static function handle($set, $get)
+    public static function handle($set, $get)
     {
         $roomId = $get('room_id');
         $startDate = $get('startDate');

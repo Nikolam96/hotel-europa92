@@ -11,34 +11,32 @@ use Mail;
 
 class ReservationService
 {
-
     public function calculatePriceAndSave(array $reservation)
     {
         unset($reservation['g-recaptcha-response']);
 
         // Find room and validate
-        $room = Room::findOrFail($reservation["room_id"]);
-        $startDate = Carbon::parse($reservation['startDate']);
-        $endDate = Carbon::parse($reservation['endDate']);
+        $room = Room::findOrFail($reservation['room_id']);
+        $createdReservation = $this->validateAndSave($reservation, $room);
 
-        if (!$room->isAvailable($room['id'], $startDate, $endDate)) {
+        if (! $createdReservation) {
             return false;
         }
-
-        $createdReservation = $this->validateAndSave($reservation, $startDate, $endDate, $room);
 
         $this->sendMails($createdReservation, $room);
 
         return $createdReservation;
     }
-    public function sendMails($reservation, $room)
-    {
 
-        Mail::to($reservation->email)->queue(new ReservationMail($room, $reservation));
-        Mail::to('reservation@hotel92.com')->queue(new HotelMail($room, $reservation));
-    }
-    public function validateAndSave($reservation, $startDate, $endDate, $room)
+    public function validateAndSave($reservation, $room)
     {
+        $startDate = Carbon::parse($reservation['startDate']);
+        $endDate = Carbon::parse($reservation['endDate']);
+
+        if (! $room->isAvailable($room['id'], $startDate, $endDate)) {
+            return false;
+        }
+
         // Calculate Price
         $daysDifference = max(1, $startDate->diffInDays($endDate));
         $reservation['price'] = $daysDifference * $room->price;
@@ -47,4 +45,10 @@ class ReservationService
         return Reservation::create($reservation);
     }
 
+    public function sendMails($reservation, $room)
+    {
+
+        Mail::to($reservation->email)->queue(new ReservationMail($room, $reservation));
+        Mail::to('reservation@hotel92.com')->queue(new HotelMail($room, $reservation));
+    }
 }

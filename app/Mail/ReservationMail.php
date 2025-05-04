@@ -3,9 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Reservation;
-use App\Models\Room;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -21,9 +19,7 @@ class ReservationMail extends Mailable
     public function __construct(
         public $room,
         public Reservation $reservation
-    ) {
-    }
-
+    ) {}
 
     /**
      * Get the message envelope.

@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Models\Reservation;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -17,9 +16,7 @@ class ReservationCanceled extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public Reservation $reservation, public string $reason)
-    {
-    }
+    public function __construct(public Reservation $reservation, public string $reason) {}
 
     /**
      * Get the message envelope.

@@ -10,10 +10,8 @@ use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
+    public function __construct(public ReservationService $reservation) {}
 
-    public function __construct(public ReservationService $reservation)
-    {
-    }
     /**
      * Display a listing of the resource.
      */
@@ -31,10 +29,11 @@ class ReservationController extends Controller
 
         if ($request->id) {
             $selected = $request->id;
-            return view("reservation.create", compact("rooms", "selected"));
+
+            return view('reservation.create', compact('rooms', 'selected'));
         }
 
-        return view("reservation.create", compact("rooms"));
+        return view('reservation.create', compact('rooms'));
     }
 
     /**
@@ -44,12 +43,11 @@ class ReservationController extends Controller
     {
         $data = $request->validated();
         $response = $this->reservation->calculatePriceAndSave($data);
-        if (!$response) {
+        if (! $response) {
             return back()->withErrors(['reservation' => 'This room is not available for the selected dates.']);
         }
 
         return redirect()->route('room.index')->with('success', 'Room reserved successfully.');
 
     }
-
 }
